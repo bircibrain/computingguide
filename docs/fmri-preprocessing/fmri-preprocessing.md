@@ -1,11 +1,10 @@
 ---
 layout: default
-title: Task Analysis
-nav_order: 7
+title: fMRI Preprocessing
+nav_order: 6
 has_children: true
 permalink: /docs/fmri-preprocessing
 ---
 
-# Task fMRI Analysis
-
+# fMRI Preprocessing
 
