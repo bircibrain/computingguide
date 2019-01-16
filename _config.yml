@@ -1,3 +1,4 @@
 remote_theme: pmarsceill/just-the-docs
 title: [BIRC Computing Guide]
 description: [A guide to high performance, reproducible computing at BIRC]
+search_enabled: true
