@@ -7,6 +7,13 @@ permalink: /docs/getting-started
 ---
 
 # Getting Started
+{:.no_toc}
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
 
 ## Scan Protocol Naming
 
@@ -23,7 +30,7 @@ It is good practice to restrict the characters you use in file names to alphanum
 
 Most of the steps in this guide will require interacting with the Unix command line. You can learn the basics of the command line at [Codecademy](https://www.codecademy.com/learn/learn-the-command-line) or [linuxcommand.org](http://linuxcommand.org/lc3_learning_the_shell.php).
 
-First, find your command line interval interface:
+First, find your command line interface:
 
 - On macOS, open **Applications > Utilities > Terminal**
 - On Linux desktop, look for an application named Terminal, Xterm, Console, or similar.
@@ -128,11 +135,22 @@ In most of this manual, only the commands to be entered will be provided, withou
 
 ## Text Editing
 
-You will need to write short scripts and edit files. These files should generally be plain text, with Unix-style line endings. To avoid problems, it is best to use a text editor designed for this purpose and one that recognizes the language you are using (e.g. Bash, JSON, or Python). Do not use a word processor such as Word to create or edit the files used in this guide. Word processors tend to add extra characters, special characters (e.g. converting straight double quotes (") to pairs of curved opening (&ldquo;) and closing quotes (&rdquo;)) that will lead to errors.
+You will need to write short scripts and edit files. These files should generally be plain text, with Unix-style line endings. To avoid problems, it is best to use a text editor designed for this purpose and one that recognizes the language you are using (e.g. Bash, JSON, or Python). Do not use a word processor such as Word to create or edit the files used in this guide. Word processors tend to add extra characters, special characters (e.g. converting straight double quotes (`"`) to pairs of curved opening (&ldquo;) and closing quotes (&rdquo;)) that will lead to errors.
 
 An editor designed for programming will also have features to add color coding and automatic formatting to emphasize the structure of the code. These features will help you spot errors. 
 
 There are many options for such editors; [Sublime](https://www.sublimetext.com/3) is a free, lightweight editor for macOS, Linux, and Windows.
+
+
+## Terminal Text Editing
+
+You can interactively edit files at the command line using [nano](https://wiki.gentoo.org/wiki/Nano/Basics_Guide). Nano should be installed on most Unix systems.
+
+To edit a new or existing file named `testfile.txt`:
+
+```terminal
+host:~ user$ nano testfile.txt
+```
 
 
 
