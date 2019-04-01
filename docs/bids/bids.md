@@ -7,6 +7,13 @@ permalink: /docs/bids
 ---
 
 # BIDS
+{:.no_toc}
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
 
 The [Brain Imaging Data Structure (BIDS)](http://bids.neuroimaging.io) is an increasingly adopted standard for organizing neuroimaging files into a consistent, self-documenting file tree that can be easily processed with general purpose analysis pipelines. Many of the pipelines covered in this guide (and [many others](http://bids-apps.neuroimaging.io/apps/)) are [BIDS Apps](https://bids-apps.neuroimaging.io). A BIDS app provides a consistent process for analyzing data, and usually requires little to no study-specific configuration since filenames and parameters can be identified directly from the BIDS input data.
 
@@ -31,7 +38,12 @@ Once you have completed steps 1-4, you are ready to actually convert your DICOMs
 There are several options for converting your raw DICOM files into a BIDS directory structure. This guide will cover the basics of using <code>bidskit</code> on the Storrs computing cluster. '''Throughout this guide, replace <code>abc12345</code> with your own NetID.'''
 
 
-## BIDScoin
+## Converters
 
-https://github.com/Donders-Institute/bidscoin
+### BIDScoin
 
+[BIDScoin](https://github.com/Donders-Institute/bidscoin) is flexible system that can be extended with customized plugins.
+
+- Fieldmaps
+- Multi-echo data
+- 
