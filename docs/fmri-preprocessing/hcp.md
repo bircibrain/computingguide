@@ -103,5 +103,34 @@ You are using a container with FreeSurfer version 5.3 and Perl version > 5.20.x.
 
 If you are using the BIRC-provided container, contact BIRC support. If you are using your own container specification, install a compatible Perl version (<=5.20.3).
 
+### Issue with fieldmap images (e.g. Spin echo fieldmap images have different dimensions)
 
+#### Symptoms
 
+The job crashes during fMRI volume processing, as indicated in the SLURM error message (can be found in the same directory which contains you sbatch_hcp.sh file): 
+
+```
+Traceback (most recent call last):
+ File "/run.py", line 421, in <module>
+   stage_func()
+ File "/run.py", line 140, in run_generic_fMRI_volume_processsing
+   run(cmd, cwd=args["path"], env={"OMP_NUM_THREADS": str(args["n_cpus"])})
+ File "/run.py", line 30, in run
+   raise Exception("Non zero return code: %d"%process.returncode)
+Exception: Non zero return code: 1
+```
+
+Use the ```tail``` command (shows the last few lines of a file) to inpsect the output file (which again can be found in the same directory which contains you sbatch_hcp.sh file). This will reveal that that crash is related to the fact that spin echo fieldmaps and bold images have different dimensions:
+
+```
+TopupPreprocessingAll.sh: Error: Spin echo fieldmap has different dimensions than scout image, this requires a manual fix
+```
+The ‘scout image’ is an image from the fMRI timeseries.
+
+#### Diagnosis
+
+There is some sort of incompatibility between your fieldmaps and the acquisition protocol (for example, the number of slices).
+
+#### Treatment
+
+Check that your scan protocol is correct.
