@@ -16,7 +16,7 @@ has_children: false
 {:toc}
 
 
-[MRIQC](https://mriqc.readthedocs.io/en/stable/) is a BIDS-App for minimal preprocessing of fMRI and anatomical data focused on calculating image quality metrics (IQMs) as part of a scan quality assessment workflow. 
+[MRIQC](https://mriqc.readthedocs.io/en/stable/) is a BIDS-App for quality control of fMRI and anatomical data focused on calculating image quality metrics (IQMs) as part of a scan quality assessment workflow. MRIQC does not return processed data; try [fmriprep](fmriprep) for getting preprocessed data.
 
 ## Installation
 

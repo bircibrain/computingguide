@@ -9,31 +9,22 @@ permalink: /docs/getting-started
 # Getting Started
 {:.no_toc}
 
-## Table of contents
+## Table of Contents
 {: .no_toc .text-delta }
 
 1. TOC
 {:toc}
 
-## Scan Protocol Naming
 
-## File Names
 
-It is good practice to restrict the characters you use in file names to alphanumeric characters (a-z and 0-9), standard dashes (`-`, not `—`), and underscores `_`. File names with spaces or special characters such as `#$&|(){}[]` are likely to create problems. If you want to emphasize word boundaries, you can
+## Command Line Basics
 
-- CapitalizeTheFirstLetter
-- use_underscores
-- or-use-dashes
-- or.periods
-
-## Unix Basics
-
-Most of the steps in this guide will require interacting with the Unix command line. You can learn the basics of the command line at [Codecademy](https://www.codecademy.com/learn/learn-the-command-line) or [linuxcommand.org](http://linuxcommand.org/lc3_learning_the_shell.php).
+Most of the steps in this guide will require interacting with a Unix-style command line. You can learn the basics of the command line at [Codecademy](https://www.codecademy.com/learn/learn-the-command-line) or [linuxcommand.org](http://linuxcommand.org/lc3_learning_the_shell.php). **Familiarity with Unix and command line operations is assumed throughout this guide**.
 
 First, find your command line interface:
 
 - On macOS, open **Applications > Utilities > Terminal**
-- On Linux desktop, look for an application named Terminal, Xterm, Console, or similar.
+- On a Linux desktop, look for an application named Terminal, Xterm, Console, or similar.
 - On Windows, [install Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10). Some of the commands needed are also available in Windows PowerShell.
 
 When you open your terminal, you will see the prompt. Your prompt may differ, but generally the prompt will look something like
@@ -59,10 +50,30 @@ Documents
 Downloads
 ```
 
-In most of this manual, only the commands to be entered will be provided, without indicating the prompt or following output. 
+In most of this manual, only the commands to be entered will be provided, without indicating the prompt or following output. These commands will be shown like this:
+
+```shell
+ls
+```
+
+### The filesystem
+
+All of the files on a Unix-like system are organized in a file tree. The root of this tree, which contains all other files, is denoted `/`. When you first open a command line window, you will usually start with a *current working directory* corresponding to your home directory. On macOS, this directory has the *absolute path* of `/Users/username`, where `username` is specifc to the account you use to login to the system. On Linux,  your home directory is usually `/home/username`. Notice that these directory names are *absolute*—they all start with `/`, the root directory, and describe how you navigate the file tree to get to the directory:
+
+```
+/
+├── Users
+    └── username
+```
+
+On many systems, you can drag-and-drop files from your graphical interface onto the command line, which will then show the absolute path of the file you dragged. 
 
 
 ### Navigating the filesystem
+
+Let's practicing navigating the files on your computer using the command line! Access your system's command line interface and try the following examples. The file paths shown here reflect a macOS system. On other systems, the files you see will be different, but the same principles apply.
+
+
 
 1. List files in the current directory
 
@@ -133,6 +144,16 @@ In most of this manual, only the commands to be entered will be provided, withou
 
 
 
+## File Names
+
+It is good practice to restrict the characters you use in file names to alphanumeric characters (a-z and 0-9), standard dashes (`-`, not `—`), and underscores `_`. File names with spaces or special characters such as `#$&|(){}[]` are likely to create problems. If you want to emphasize word boundaries, you can
+
+- CapitalizeTheFirstLetter
+- use_underscores
+- or-use-dashes
+- or.periods
+
+
 ## Text Editing
 
 You will need to write short scripts and edit files. These files should generally be plain text, with Unix-style line endings. To avoid problems, it is best to use a text editor designed for this purpose and one that recognizes the language you are using (e.g. Bash, JSON, or Python). Do not use a word processor such as Word to create or edit the files used in this guide. Word processors tend to add extra characters, special characters (e.g. converting straight double quotes (`"`) to pairs of curved opening (&ldquo;) and closing quotes (&rdquo;)) that will lead to errors.
@@ -144,14 +165,29 @@ There are many options for such editors; [Sublime](https://www.sublimetext.com/3
 
 ## Terminal Text Editing
 
-You can interactively edit files at the command line using [nano](https://wiki.gentoo.org/wiki/Nano/Basics_Guide). Nano should be installed on most Unix systems.
+You can interactively edit files at the command line using [nano](https://wiki.gentoo.org/wiki/Nano/Basics_Guide). This is particularly useful when working on remote systems over the command line. Nano should be installed on most Unix systems.
 
 To edit a new or existing file named `testfile.txt`:
 
-```terminal
-host:~ user$ nano testfile.txt
-```
+
+1.  Start nano:
+
+	```terminal
+	host:~ user$ nano testfile.txt
+	```
+2. Type `Ctrl+O` to save the file
+3. Type `Ctrl+X` to quit the editor
 
 
 
+There are also more capable command line editors, such as [Emacs](https://www.gnu.org/software/emacs/tour/) and [Vim](https://www.openvim.com), but these are not installed on all systems.
 
+
+
+## Tutorials
+
+### Learn Bash
+Work through the 4 free modules of [Learn the Command Line](https://www.codecademy.com/learn/learn-the-command-line) on Codeacademy. Don't just copy and paste commands in the lessons—type them out.
+
+### Learn Git
+Work through the 4 free modules of [Learn Git](https://www.codecademy.com/learn/learn-git) on Codeacademy.
