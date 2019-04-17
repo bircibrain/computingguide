@@ -80,8 +80,7 @@ Where `<mriqc.simg>` is the path to the image you created above, add the followi
 module load singularity
 singularity run --cleanenv --bind <bids_dir>:/data --bind <output_dir>:/out \
 <mriqc.simg> \
---participant_label <SUBJECT> \
-/data /out participant
+/data /out participant --participant_label <SUBJECT>
 
 singularity run --cleanenv --bind <bids_dir>:/data --bind <output_dir>:/out \
 <mriqc.simg> \
@@ -115,8 +114,7 @@ module load singularity
 singularity run --cleanenv --bind <bids_dir>:/data --bind <output_dir>:/out \
 <mriqc.simg> \
 --n_procs 4 --mem_gb 8 \
---participant_label $SUBJECT
-/data /out participant
+/data /out participant --participant_label $SUBJECT
 
 ```
 
@@ -157,3 +155,25 @@ Image quality metrics (IQMs) are stored in a JSON file for each participant/scan
 - [Summary of IQMs](http://preprocessed-connectomes-project.org/quality-assessment-protocol/#taxonomy-of-qa-measures) from QAP documentation
 - [Detailed descriptions](https://mriqc.readthedocs.io/en/stable/measures.html) from the MRIQC documentation
 
+## Troubleshooting
+
+### No space left on device
+
+#### Symptoms
+
+When pulling the image from Docker Hub using `singularity pull --name mriqc.simg docker://poldracklab/mriqc:latest`, the process stops with the following error message:
+
+```
+FATAL:   `Unable to pull docker://poldracklab/mriqc:latest: packer failed to pack: While unpacking tmpfs: unpack: error extracting layer: unable to copy: write /tmp/sbuild-721802119/fs/usr/local/miniconda/lib/libmkl_pgi_thread.so: no space left on device`
+```
+#### Diagnosis
+
+The tmp directory got overloaded with temporary files and ran out of space.
+
+#### Treatment
+
+Fix this by specifying the custom temporary and cache directories (you can use the path to your folder on scratch):
+
+```
+SINGULARITY_TMPDIR=<tmpdir> SINGULARITY_CACHEDIR=<cachedir> singularity pull --name mriqc.simg docker://poldracklab/mriqc:latest
+```
