@@ -78,16 +78,17 @@ Where `<mriqc.simg>` is the path to the image you created above, add the followi
 
 ```shell
 module load singularity
-singularity run --bind <bids_dir>:/data --bind <output_dir>:/out \
+singularity run --cleanenv --bind <bids_dir>:/data --bind <output_dir>:/out \
 <mriqc.simg> \
 --participant_label <SUBJECT> \
 /data /out participant
 
-singularity run --bind <bids_dir>:/data --bind <output_dir>:/out \
+singularity run --cleanenv --bind <bids_dir>:/data --bind <output_dir>:/out \
 <mriqc.simg> \
 /data /out group
 ```
 
+Note the use of `--cleanenv` to sanitize environment variables from the host. Without this, FSL will not work.
 
 #### Resource limits and parallelization
 
@@ -111,7 +112,7 @@ As a rough guide, `mriqc` will use about 1GB of memory and 1 hour of walltime pe
 SUBJECT=$1
 
 module load singularity
-singularity run --bind <bids_dir>:/data --bind <output_dir>:/out \
+singularity run --cleanenv --bind <bids_dir>:/data --bind <output_dir>:/out \
 <mriqc.simg> \
 --n_procs 4 --mem_gb 8 \
 --participant_label $SUBJECT
