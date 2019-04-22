@@ -11,3 +11,12 @@ has_children: false
 
 
 
+# Data Structure
+
+## Output Data
+
+For the output data, create a `derivatives` folder with a `freesurfer` subfolder:
+
+```
+mkdir -p MyProject/derivatives/freesurfer
+``
