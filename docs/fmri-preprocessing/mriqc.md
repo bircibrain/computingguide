@@ -64,8 +64,8 @@ To run MRIQC on a single participant and regenerate the group level report, run 
 ```shell
 docker run -it --rm -v <bids_dir>:/data:ro -v <output_dir>:/out \
 poldracklab/mriqc:latest \
---participant_label <SUBJECT> \
-/data /out participant
+/data /out participant \
+--participant_label <SUBJECT>
 
 docker run -it --rm -v <bids_dir>:/data:ro -v <output_dir>:/out \
 poldracklab/mriqc:latest \
@@ -80,7 +80,8 @@ Where `<mriqc.simg>` is the path to the image you created above, add the followi
 module load singularity
 singularity run --cleanenv --bind <bids_dir>:/data --bind <output_dir>:/out \
 <mriqc.simg> \
-/data /out participant --participant_label <SUBJECT>
+/data /out participant \
+--participant_label <SUBJECT>
 
 singularity run --cleanenv --bind <bids_dir>:/data --bind <output_dir>:/out \
 <mriqc.simg> \
@@ -113,8 +114,9 @@ SUBJECT=$1
 module load singularity
 singularity run --cleanenv --bind <bids_dir>:/data --bind <output_dir>:/out \
 <mriqc.simg> \
+/data /out participant \
+--participant_label $SUBJECT \
 --n_procs 4 --mem_gb 8 \
-/data /out participant --participant_label $SUBJECT
 
 ```
 
