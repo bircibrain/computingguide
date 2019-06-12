@@ -107,6 +107,7 @@ As a rough guide, `mriqc` will use about 1GB of memory and 1 hour of walltime pe
 #SBATCH -e error_%A_%a.log			# Standard error
 #SBATCH -o output_%A_%a.log			# Standard output
 #SBATCH --job-name=mriqc			# Descriptive job name
+#SBATCH --partition=serial            # Use a serial partition 24 cores/7days
 ##### END OF JOB DEFINITION  #####
 
 SUBJECT=$1
