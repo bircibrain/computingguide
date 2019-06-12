@@ -106,7 +106,7 @@ A suggested SLURM job description is below. The allotted time may need to be inc
 SUBJECT=$1
 
 module load singularity
-singularity run --bind <bids_dir>:/data --bind <output_dir>:/out \
+singularity run --cleanenv --bind <bids_dir>:/data --bind <output_dir>:/out \
 <fmriprep.simg> \
 --participant_label <SUBJECT> \
 --nthreads $SLURM_CPUS_PER_TASK --omp-nthreads $SLURM_CPUS_PER_TASK \
