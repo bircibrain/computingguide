@@ -100,6 +100,7 @@ A suggested SLURM job description is below. The allotted time may need to be inc
 #SBATCH -e error_%A_%a.log			# Standard error
 #SBATCH -o output_%A_%a.log			# Standard output
 #SBATCH --job-name=fmriprep			# Descriptive job name
+#SBATCH --partition=serial            # Use a serial partition 24 cores/7days
 ##### END OF JOB DEFINITION  #####
 
 SUBJECT=$1
