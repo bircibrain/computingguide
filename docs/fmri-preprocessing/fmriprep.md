@@ -95,8 +95,8 @@ A suggested SLURM job description is below. The allotted time may need to be inc
 #SBATCH --nodes=1					# OpenMP requires a single node
 #SBATCH --ntasks=1					# Run a single serial task
 #SBATCH --cpus-per-task=8
-#SBATCH --mem=8gb
-#SBATCH --time=36:00:00				# Time limit hh:mm:ss
+#SBATCH --mem=48gb
+#SBATCH --time=48:00:00				# Time limit hh:mm:ss
 #SBATCH -e error_%A_%a.log			# Standard error
 #SBATCH -o output_%A_%a.log			# Standard output
 #SBATCH --job-name=fmriprep			# Descriptive job name
