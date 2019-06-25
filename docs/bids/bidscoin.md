@@ -249,9 +249,13 @@ Next copy the DICOM (`.dcm`) files from your renamed DICOM directories into the 
 008-T1w_vNav RMS				-> anat/T1w
 012-T2w_vNav					-> anat/T2w
 013-SpinEchoFieldMap_AP	   		-> fmap/epi
-014-SpinEchoFieldMap_PA   		-> fmap/epi
-015-rsa_SBRef				  	-> func/sbref
-016-rsa							-> func/bold
+015-SpinEchoFieldMap_PA   		-> fmap/epi
+016-rsa_SBRef				  	-> func/sbref
+017-rsa							-> func/bold
+050-SEfmap_DKI_AP   			-> fmap/epi
+052-SEfmap_DKI_AP   			-> fmap/epi
+053-DKI_SBRef   				-> dwi/sbref
+054-DKI							-> dwi/dwi
 ```
 
 
@@ -261,8 +265,10 @@ In this example, several scans are ignored:
 - `PhysioLog` scans currently require additional preprocessing
 - `vNav_setter` scans are used for online motion correction and not useful
 - `007-T1w_vNav` is ignored because this particular example uses a multi-echo T1w sequence. This series contains the individual echoes. While it is possible to convert each of the echoes, we are usually more interested in the RMS-combined data (in `008-T1w_vNav RMS`) and ignore the individual echoes for simplicity in this example.
-- `019-rsa` is a second run of an fMRI task identical to `016-rsa`. If you have multiple runs of exactly the same sequence, it is only necessary to copy one run. Here, `016-rsa` and `019-rsa` are two runs of the same fMRI task using identical scan protocols, so only the first needs to be copied. The corresponding SBRef is also ignored.
+- `019-rsa` is a second run of an fMRI task identical to `017-rsa`. If you have multiple runs of exactly the same sequence, it is only necessary to copy one run. Here, `016-rsa` and `019-rsa` are two runs of the same fMRI task using identical scan protocols, so only the first needs to be copied. The corresponding SBRef is also ignored.
 - `011-T2w_vNav`, the raw T2w scan. You may encounter scans that appear to be unexpected duplicates, e.g. `011-T2w_vNav` and `012-T2w_vNav`. In this example protocol, only one `T2w_vNav` scan was collected, yet there are two different series (series 11 and 12). This commonly happens when some postprocessing is done at the scanner, resulting in an unprocessed scan (the first of the two) and a processed (derived) scan (the second of the two). These two series can be differentiated in the mapping process, but for simplicity we keep only the second series (which has been normalized and filtered) for further processing. If you do have multiple T1w or T2w series from the same scan in your data, you will usually want to use the second of the series.
+- `013-SpinEchoFieldMap_AP`, the fieldmap scan. You may encounter duplicates of the fieldmap scans in each direction. During the DICOM phase, the prescan normalized series will be the second series in the set. In this case, you would ignore the first scan (e.g. `012-SpinEchoFieldMap_AP`) and just use the second series (e.g. `013-SpinEchoFieldMap_AP`). Do the same thing for the fieldmap scans in the PA direction as well.
+`050-SEfmap_DKI_AP`, the fieldmap scans for diffusion data. Similar to the fieldmap scans for the BOLD data, you want to ignore the first series for each direction, and keep the second series only. Even though these scans are diffusion data, make sure they go under the fmap/epi folder.
 
 
 If you are unsure of what type of scans you have, talk to someone at BIRC.
@@ -480,6 +486,48 @@ We make a similar change for the AP direction:
       run_index: <<1>>
       dir_label: AP
       IntendedFor: <<task><T1w><T2w>>
+
+```
+We also want to make similar changes in both directions (AP, PA) for diffusion data:
+
+```yaml
+      SeriesDescription: SEfmap_DKI_AP
+      SequenceVariant: SK
+      SequenceName: epse2d1_96
+      ScanningSequence: EP
+      MRAcquisitionType: 2D
+      FlipAngle: '90'
+      EchoNumbers: 1
+      EchoTime: '80'
+      RepetitionTime: '7465'
+      ImageType: "['ORIGINAL', 'PRIMARY', 'M', 'ND', 'NORM', 'MOSAIC']"
+      ProtocolName: SEfmap_DKI_AP
+      PhaseEncodingDirection:
+    bids:
+      suffix: epi
+      acq_label: dwi
+      run_index: <<1>>
+      dir_label: AP
+      IntendedFor: <<dwi>>
+  - attributes:                                   
+      SeriesDescription: SEfmap_DKI_PA
+      SequenceVariant: SK
+      SequenceName: epse2d1_96
+      ScanningSequence: EP
+      MRAcquisitionType: 2D
+      FlipAngle: '90'
+      EchoNumbers: 1
+      EchoTime: '80'
+      RepetitionTime: '7465'
+      ImageType: "['ORIGINAL', 'PRIMARY', 'M', 'ND', 'NORM', 'MOSAIC']"
+      ProtocolName: SEfmap_DKI_PA
+      PhaseEncodingDirection:
+    bids:
+      suffix: epi
+      acq_label: dwi
+      run_index: <<1>>
+      dir_label: PA
+      IntendedFor: <<dwi>>
 
 ```
 
