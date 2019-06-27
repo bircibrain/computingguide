@@ -505,7 +505,7 @@ We also want to make similar changes in both directions (AP, PA) for diffusion d
       PhaseEncodingDirection:
     bids:
       suffix: epi
-      acq_label: dwi
+      acq_label: diff
       run_index: <<1>>
       dir_label: AP
       IntendedFor: <<dwi>>
@@ -524,7 +524,7 @@ We also want to make similar changes in both directions (AP, PA) for diffusion d
       PhaseEncodingDirection:
     bids:
       suffix: epi
-      acq_label: dwi
+      acq_label: diff
       run_index: <<1>>
       dir_label: PA
       IntendedFor: <<dwi>>
