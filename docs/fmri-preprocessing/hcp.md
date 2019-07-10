@@ -308,3 +308,4 @@ There is some sort of incompatibility between your fieldmaps and the acquisition
 - cut slices from the overall dataset using `fslroi` (direction is design-specific) 
 			- e.g. `fslroi big.nii.gz resized.nii.gz 0 -1 0 -1 0 59` 
 
+ 

@@ -42,8 +42,21 @@ There are several options for converting your raw DICOM files into a BIDS direct
 
 ### BIDScoin
 
-[BIDScoin](https://github.com/Donders-Institute/bidscoin) is flexible system that can be extended with customized plugins.
+[BIDScoin](bidscoin) is the recommended method for getting your data into BIDS format as it is flexible enough to accommodate nearly every dataset. For simple datasets, such as those that not include derived images or multi-echo scans, you may consider another convertor such as [bidskit](https://github.com/jmtyszka/bidskit) or [dcm2bids](https://github.com/cbedetti/Dcm2Bids).
 
-- Fieldmaps
-- Multi-echo data
-- 
+The [birc-bids](https://github.com/bircibrain/birc-bids) container includes several conversion and validation tools. You can pull a copy of the container
+
+using Docker:
+
+```
+docker pull rhancock/birc-bids
+```
+
+using Singularity
+
+```
+singularity pull docker://rhancock/birc-bids
+```
+
+
+
