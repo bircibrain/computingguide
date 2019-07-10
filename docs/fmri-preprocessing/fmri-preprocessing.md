@@ -19,10 +19,10 @@ Several reproducible processing pipelines are available to for quality control a
 
 Quick start guides are provided for:
 
-- [mriqc](mriqc), for the initial quality control of functional and anatomical data.
-- [fmriprep](fmriprep), for preprocessing functional and anatomical data. fmriprep can be used to prepare functional data for volumetric and/or surface analysis. Optional preprocessing steps include distortion correction with or without fieldmaps, ICA-AROMA denoising, and optimal combination of multi-echo data.
-- [ciftify](ciftify), an fmriprep-based pipeline that additionally prepares Human Connectome Project style outputs and quality control of Freesurfer reconstructions. ciftify can be used by itself to generate Human Connectome Project style outputs from BIDS data without a T2w anatomical.
-- [hcp-bids](hcp-bids), the minimal preprocessing pipeline for the Human Connectome Project implemented as a BIDS app. Currently, the PreFreeSurfer, FreeSurfer, PostFreeSurfer, fMRIVolume, and fMRISurface stages are available.
+- [mriqc](fmri-preprocessing/mriqc), for the initial quality control of functional and anatomical data.
+- [fmriprep](fmri-preprocessing/fmriprep), for preprocessing functional and anatomical data. fmriprep can be used to prepare functional data for volumetric and/or surface analysis. Optional preprocessing steps include distortion correction with or without fieldmaps, ICA-AROMA denoising, and optimal combination of multi-echo data.
+- [ciftify](fmri-preprocessing/ciftify), an fmriprep-based pipeline that additionally prepares Human Connectome Project style outputs and quality control of Freesurfer reconstructions. ciftify can be used by itself to generate Human Connectome Project style outputs from BIDS data without a T2w anatomical.
+- [hcp-bids](fmri-preprocessing/hcp-bids), the minimal preprocessing pipeline for the Human Connectome Project implemented as a BIDS app. Currently, the PreFreeSurfer, FreeSurfer, PostFreeSurfer, fMRIVolume, and fMRISurface stages are available.
 
 
 Users may also be interested in
