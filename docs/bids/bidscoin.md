@@ -19,13 +19,12 @@ parent: bids
 
 # Overview
 
-BIDScoin is one of many methods to convert your raw DICOM data into a BIDS format in preparation for further analysis using a BIDS app, sharing your data in a repository such as [OpenNeuro](https://openneuro.org), or having a well-documented organizational structure for your future self. Although there are several steps to get the system initially setup, 
-
+[BIDScoin](https://github.com/Donders-Institute/bidscoin/tree/master/bidscoin) is one of many methods to convert your raw DICOM data into a BIDS format in preparation for further analysis using a BIDS app, sharing your data in a repository such as [OpenNeuro](https://openneuro.org), or having a well-documented organizational structure for your future self. 
 The advantage of BIDScoin over other systems is that a basic BIDS conversion can be accomplished with little to no editing of configuration files, yet the system is powerful enough to properly handle complex data, including multi-echo sequences, field maps, and derived sequences. To use BIDScoin, you only need to understand how the scans in your protocol correspond to the different data types and modalities in the [BIDS specification](https://bids-specification.readthedocs.io/en/stable/).
 
 If you prefer writing configuration files and are comfortable interpreting DICOM metadata, you may be interested in [Dcm2Bids](https://github.com/cbedetti/Dcm2Bids) or [bidskit](https://github.com/jmtyszka/bidskit). If you are comfortable writing Python code and need extra flexibility (e.g. detecting and handling partial runs), try [heudiconv](https://github.com/nipy/heudiconv).
 
-This guide covers the basics of the initial setup for a moderately sophisticated protocol, and an example of editing the generated configuration to customize how field maps are handled.
+This guide covers the basics of the initial setup for a moderately sophisticated protocol, and an example of editing the generated configuration to customize how field maps are handled. This guide covers setting up BIDScoin using the command line; a newer graphical interface is described in the [official documentation](https://github.com/Donders-Institute/bidscoin/tree/master/bidscoin).
 
 # Setup
 
@@ -155,7 +154,7 @@ From NiDB, export data from a **single** subject that is representative of your 
 
 - Destination: Web
 - Data: Imaging
-- Format: DICOM, Anonymize DICOM - light
+- Format: DICOM, No DICOM anonymization
 - Directory Structure
 	- Directory Format: Primary alternate subject ID
 	- Series Directories: Preserve series number
@@ -327,7 +326,10 @@ mv MyProject/raw/SubjectID MyProject/raw/sub-SubjectID
 Then run the command
 
 ```bash
-docker run --rm -v `pwd`/MyProject:/data rhancock/birc-bids bidsmapper.py /data/raw  /data/bids
+docker run --rm -v `pwd`/MyProject:/data \
+rhancock/birc-bids bidsmapper.py  \
+-t /data/bids/code/bidsmap_sample.yaml \
+-i 0 /data/raw  /data/bids
 ```
 
 This will create the file `MyProject/bids/code/bidsmap.yaml`, that describes how files will be named based on the training data.
