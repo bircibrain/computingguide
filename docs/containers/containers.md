@@ -55,3 +55,21 @@ Where `user/image:tag` is the name of the container on Docker Hub. If you omit t
 
 The `SINGULARITY_CACHEDIR` and `SINGULARITY_TMPDIR` variables are set above to avoid running out of disk space in your home directory (the default build location) on the Storrs HPC system. See the [documentation](https://sylabs.io/guides/3.3/user-guide/build_env.html#overview) for more detail on the use of these directories.
 
+## Useful containers
+
+- `poldracklab/mriqc` — quality control of functional and anatomical MRI data
+- `poldracklab/fmriprep` — preprocessing of functional and anatomical MRI data
+- `afni/afni` — afni
+- `freesurfer/freesurfer` — FreeSurfer
+- `kaczmarj/neurodocker` — [Neurodocker](https://github.com/kaczmarj/neurodocker) image for building your own containers
+- [BIDS Apps](https://bids-apps.neuroimaging.io/apps/) — list of containers that work with a BIDS dataset
+
+To download any of these containers, substitute the container name (`in monospaced font`) in the Docker or Singularity pull command:
+
+- `docker pull name`, e.g. `docker pull poldracklab/mriqc`
+- `singularity pull docker://name`, e.g. `singularity pull docker://poldracklab/mriqc`
+
+
+## Custom containers
+
+[Neurodocker](https://github.com/kaczmarj/neurodocker) makes it easy to build Docker or Singularity containers for neuroimaging. See the [Neurodocker](https://github.com/kaczmarj/neurodocker) documentation and examples to get started!
