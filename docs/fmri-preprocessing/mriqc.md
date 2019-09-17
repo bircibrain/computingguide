@@ -18,6 +18,8 @@ has_children: false
 
 [MRIQC](https://mriqc.readthedocs.io/en/stable/) is a BIDS-App for quality control of fMRI and anatomical data focused on calculating image quality metrics (IQMs) as part of a scan quality assessment workflow. MRIQC does not return processed data; try [fmriprep](fmriprep) for getting preprocessed data.
 
+**Warning**: this guide is only a summary of how MRIQC can be used. Always check the [official documentation](https://mriqc.readthedocs.io/en/stable/) for the latest usage information.
+
 ## Installation
 
 ### Docker
@@ -41,10 +43,10 @@ Then load the singularity module and pull the image from Docker Hub:
 
 ```shell
 module load singularity
-singularity pull --name mriqc.simg docker://poldracklab/mriqc:latest
+singularity pull --name mriqc_latest.sif docker://poldracklab/mriqc:latest
 ```
 
-This will create a Singularity image named `mriqc.simg` in your current directory.
+This will create a Singularity image named `mriqc_latest.sif` in your current directory.
 
 
 ## Usage
@@ -74,17 +76,17 @@ poldracklab/mriqc:latest \
 
 ### Singularity/Storrs HPC
 
-Where `<mriqc.simg>` is the path to the image you created above, add the following line to your SLURM file:
+Where `<mriqc_latest.sif>` is the full path to the image you created above, add the following line to your SLURM file:
 
 ```shell
 module load singularity
 singularity run --cleanenv --bind <bids_dir>:/data --bind <output_dir>:/out \
-<mriqc.simg> \
+<mriqc_latest.sif> \
 /data /out participant \
 --participant_label <SUBJECT>
 
 singularity run --cleanenv --bind <bids_dir>:/data --bind <output_dir>:/out \
-<mriqc.simg> \
+<mriqc_latest.sif> \
 /data /out group
 ```
 
@@ -114,7 +116,7 @@ SUBJECT=$1
 
 module load singularity
 singularity run --cleanenv --bind <bids_dir>:/data --bind <output_dir>:/out \
-<mriqc.simg> \
+<mriqc_latest.sif> \
 /data /out participant \
 --participant_label $SUBJECT \
 --n_procs 4 --mem_gb 8 \
@@ -164,19 +166,21 @@ Image quality metrics (IQMs) are stored in a JSON file for each participant/scan
 
 #### Symptoms
 
-When pulling the image from Docker Hub using `singularity pull --name mriqc.simg docker://poldracklab/mriqc:latest`, the process stops with the following error message:
+When pulling the image from Docker Hub using `singularity pull --name mriqc_latest.sif docker://poldracklab/mriqc:latest`, the process stops with the following error message:
 
 ```
 FATAL:   `Unable to pull docker://poldracklab/mriqc:latest: packer failed to pack: While unpacking tmpfs: unpack: error extracting layer: unable to copy: write /tmp/sbuild-721802119/fs/usr/local/miniconda/lib/libmkl_pgi_thread.so: no space left on device`
 ```
 #### Diagnosis
 
-The tmp directory got overloaded with temporary files and ran out of space.
+The `tmp` directory got overloaded with temporary files and ran out of space.
 
 #### Treatment
 
 Fix this by specifying the custom temporary and cache directories (you can use the path to your folder on scratch):
 
-```
-SINGULARITY_TMPDIR=<tmpdir> SINGULARITY_CACHEDIR=<cachedir> singularity pull --name mriqc.simg docker://poldracklab/mriqc:latest
+```shell
+export SINGULARITY_TMPDIR=<tmpdir>
+export SINGULARITY_CACHEDIR=<cachedir>
+singularity pull --name mriqc_latest.sif docker://poldracklab/mriqc:latest
 ```
