@@ -41,10 +41,13 @@ Then load the singularity module and pull the image from Docker Hub:
 
 ```shell
 module load singularity
+export SINGULARITY_TMPDIR=<tmpdir>
+export SINGULARITY_CACHEDIR=<cachedir>
 singularity pull --name fmriprep.simg docker://poldracklab/fmriprep:latest
 ```
 
-This will create a Singularity image named `fmriprep.simg` in your current directory.
+This will create a Singularity image named `fmriprep.simg` in your current working directory, which should be under `/scratch`. `SINGULARITY_TMPDIR` and `SINGULARITY_CACHEDIR` should also be located under `/scratch`
+
 
 
 # Usage
@@ -108,11 +111,11 @@ SUBJECT=$1
 module load singularity
 singularity run --cleanenv --bind <bids_dir>:/data --bind <output_dir>:/out \
 <fmriprep.simg> \
---participant_label <SUBJECT> \
+--participant_label $SUBJECT \
 --nthreads $SLURM_CPUS_PER_TASK --omp-nthreads $SLURM_CPUS_PER_TASK \
 --fs-license-file /data/code/license.txt \
---cifti-output --output-space T1w template fsnative fsaverage \
---use-syn-sdc --use-aroma \
+--cifti-output \
+--use-syn-sdc \
 /data /out participant
 
 
