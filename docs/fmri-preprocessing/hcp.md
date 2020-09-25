@@ -87,7 +87,7 @@ BIRC provides a container that implements the fMRI and anatomical preprocessing 
 - Describe steps to connect to HPC and load appropriate modules
 
 ```shell
-singularity pull rhancock/hcpbids
+singularity pull bids/hcppipelines
 ```
 
 ## Running the container
@@ -95,7 +95,6 @@ singularity pull rhancock/hcpbids
 ## General instructions
 
 - This container runs on the high performance computing cluster (HPC) 
-- The BIDS compatible HCP pipeline container is located at `/scratch/birc_ro/bids_hcp_birc.sif`
 - The HCP pipeline script is called `run.py` located at the root directory `/` in the container.
 	- positional arguments for `run.py`:
 		- `bids_dir`:The directory with the input dataset formatted according to the BIDS standard.
@@ -109,9 +108,6 @@ singularity pull rhancock/hcpbids
 		- `--anat_unwarpdir`: Direction to unwarp 3D anatomicals. Required if distortion correction and PreFreeSurfer are specified. One of x, y, z, -x, -y, -z.**(For most cases at the BIRC, `--anat_unwarpdir z` would be the way to go)**
 		- ` --license_key LICENSE_KEY`:FreeSurfer license key - letters and numbers after "*" in the email you received after registration. To register (for free) visit this [link] (https://surfer.nmr.mgh.harvard.edu/registration.html)
 		- `-v, --version`: show program's version number and exit
-
-See the [Containerized HCP page] (http://birc-int.psy.uconn.edu/wiki/index.php/Containerized_HCP) on the BIRC wiki for more information.
-
 
 
 ### Singularity
@@ -142,7 +138,7 @@ Example Code:
 	##### END OF JOB DEFINITION  #####
 	
 	module load singularity
-	singularity run /scratch/birc_ro/bids_hcp_birc.sif \
+	singularity run hcppipelines_latest.sif \
 	/run.py /scratch/psyc5171/hcp_example/to_process/bids /scratch/psyc5171/abc12345/hcp_output participant \
 	--participant_label 26494191  \
 	--license_key "41240" --gdcoeffs /scratch/psyc5171/hcp_example/to_process/coeff.grad --anat_unwarpdir z
@@ -184,10 +180,12 @@ There is no need to modify any of the HCP scripts or pass additional parameters 
 	- Use files with `MSMAll` or `MSMsulc` for best registration
 
 ### Anatomical Filename Structure: 
+
 - `${subject}.${hemisphere}.${surface}_${registration}.${meshk_fs_LR.surf.gii`
 	- e.g. 130619.R.midthickness_MSMAll.164k_fs_LR.surf.gii
 
 ### CIFTI file format: ("grayordinates")
+
 - Contains multiple structures
 - Can mix volumetric and surface data
 - Commonly left and right surfaces, subcortex (voxels), cerebellum (voxels)
@@ -197,21 +195,22 @@ There is no need to modify any of the HCP scripts or pass additional parameters 
 	- `.pscalar.nii` is a parcellation with scalar values (e.g. a statistic)
 
 ### GIFTI file format:
+
 - Contains only surface data (vs multiple surfaces and/or voxels in CIFTI)
 	- `.surf.gii`: surface geometry of vertices and triangles
 	- `.label.gii`: functional/anatomical labels
 	- `.shape.gii` and `.func.gii`: metric files of scalar values (triangle area, thickness, curvature, statistics from one hemisphere)
 
 ### Partially documented outputs from example HCP subject
-- Locatated at `/scratch/psyc5171/hcp_example`
-	- `$SubjectID /`
-		- `T1w`
-			- `fsaverage_LR32k`: fs_LR space 32k mesh anatomy
-		- `MNINonLinear`
-			- `fsaverage_LR32k` : fs_LR space 32k mesh metrics
-			- `Native` : fsaverage space 164k meshes (high resolution)
-			- `Results` : fs_LR space fMRI on 32k mesh
-			- 
+
+- `$SubjectID /`
+	- `T1w`
+		- `fsaverage_LR32k`: fs_LR space 32k mesh anatomy
+	- `MNINonLinear`
+		- `fsaverage_LR32k` : fs_LR space 32k mesh metrics
+		- `Native` : fsaverage space 164k meshes (high resolution)
+		- `Results` : fs_LR space fMRI on 32k mesh
+		- 
 
 ## Troubleshooting
 
