@@ -17,11 +17,11 @@ has_children: false
 
 ## Overview
 
-The following guide contains instructions for how to execute a standardized minimal preprocessing pipeline for Human Connectome Project(HCP) data. Using modified FreeSurfer pipeline in combination with FSL preprocessing and surface projection, this pipeline implements surface based processing for high resolution fMRI and anatomical readout distortion correction to handle high resolution anatomical images. It also allows for [multimodal surface mapping] (https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/MSM) for aligning cortical surfances in a way that improves SNR. 
+The following guide contains instructions for how to execute a standardized minimal preprocessing pipeline for Human Connectome Project(HCP) data. Using modified FreeSurfer pipeline in combination with FSL preprocessing and surface projection, this pipeline implements surface based processing for high resolution fMRI and anatomical readout distortion correction to handle high resolution anatomical images. It also allows for [multimodal surface mapping] (https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/MSM) for aligning cortical surfaces in a way that improves SNR. The [documentation for the container](https://github.com/BIDS-Apps/HCPPipelines) may have additional information and describe features not covered here.
 
 ### Included preprocessing steps
 
-The HCP Pipelines perform the following [minimal preprocessing]((https://www.ncbi.nlm.nih.gov/pubmed/23668970) as a prerequisite to statistics or group level analysis.
+The HCP Pipelines perform the following [minimal preprocessing](https://www.ncbi.nlm.nih.gov/pubmed/23668970) as a prerequisite to statistics or group level analysis.
 
 For anatomical data:
 
@@ -74,7 +74,7 @@ If you are collecting your own scan data, you should follow the [recommendations
 
 ### BIDS Conversion
 
-BIRC provides a container that implements the fMRI and anatomical preprocessing pipelines from version 3.27 of the HCP Pipelines as BIDS app. To use the BIDS app functionality, you must convert your raw data into BIDS format. During the conversion to BIDS, you must specify the T1w and T2w anatomical files as targets for one of your fieldmaps by including the anatomical scans in the `IntendedFor` section.
+To use the BIDS app functionality, you must convert your raw data into BIDS format. During the conversion to BIDS, you must specify the T1w and T2w anatomical files as targets for one of your fieldmaps by including the anatomical scans in the `IntendedFor` section.
 
 
 ## Pulling the container
@@ -86,17 +86,32 @@ BIRC provides a container that implements the fMRI and anatomical preprocessing 
 - Describe where the container file is created
 - Describe steps to connect to HPC and load appropriate modules
 
+To pull the latest container image on the [Storrs HPC system](https://wiki.hpc.uconn.edu/index.php/Main_Page), save the lines below as a script and submit the job.
+
 ```shell
-singularity pull bids/hcppipelines
+#SBATCH --nodes=1					# OpenMP requires a single node
+#SBATCH --ntasks=1					# Run a single serial task
+#SBATCH --cpus-per-task=1           # Number of cores to use
+#SBATCH --mem=16gb				# Memory limit
+#SBATCH --time=2:00:00				# Time limit hh:mm:ss
+#SBATCH --job-name=pull			# Descriptive job name
+#SBATCH --partition=general			# Use a serial partition 24 cores/7days
+	
+module load singularity
+module load squashfs
+export SINGULARITY_CACHEDIR=/scratch/$USER
+export SINGULARITY_TMPDIR=/scratch/$USER
+singularity pull docker://bids/hcppipelines
 ```
+
+This will create a container image named `hcppipelines_latest.sif` in the directory where you submitted the job. 
 
 ## Running the container
 
 ## General instructions
 
 - This container runs on the high performance computing cluster (HPC) 
-- The HCP pipeline script is called `run.py` located at the root directory `/` in the container.
-	- positional arguments for `run.py`:
+	- positional arguments :
 		- `bids_dir`:The directory with the input dataset formatted according to the BIDS standard.
 		- `output_dir`: The directory where the output files should be stored. (If you are running group level analysis this folder should be prepopulated with the results of the participant level analysis.
 		- `{participant}`: (Level of the analysis that will be performed. Multiple participant level analyses can be run in parallel using the same output_dir.)
@@ -139,9 +154,13 @@ Example Code:
 	
 	module load singularity
 	singularity run hcppipelines_latest.sif \
-	/run.py /scratch/psyc5171/hcp_example/to_process/bids /scratch/psyc5171/abc12345/hcp_output participant \
+	/scratch/psyc5171/hcp_example/to_process/bids \
+	/scratch/psyc5171/abc12345/hcp_output \
+	participant \
 	--participant_label 26494191  \
-	--license_key "41240" --gdcoeffs /scratch/psyc5171/hcp_example/to_process/coeff.grad --anat_unwarpdir z
+	--license_key "41240" \
+	--gdcoeffs /scratch/psyc5171/hcp_example/to_process/coeff.grad \
+	--anat_unwarpdir z
 	
 4. Save the code above as `/scratch/abc12345/sbatch_hcp.sh`
 - change First.Last@uconn.edu to your own email address.
@@ -214,42 +233,6 @@ There is no need to modify any of the HCP scripts or pass additional parameters 
 
 ## Troubleshooting
 
-### FreeSurfer step fails at `mri_nu_correct.mni`
-
-#### Symptoms
-
-When processing steps include `Freesurfer`, the job crashes after 1-2 hours with the message
-
-```
-Traceback (most recent call last):
-  File "/run.py", line 349, in <module>
-    stage_func()
-  File "/run.py", line 96, in run_freesurfer
-    "OMP_NUM_THREADS": str(args["n_cpus"])})
-  File "/run.py", line 30, in run
-    raise Exception("Non zero return code: %d"%process.returncode)
-Exception: Non zero return code: 1
-```
-
-indicating the job failed at the freesurfer step. Inpsecting the last few lines of `recon-all.log` reveals the crash happens near the `mri_nu_correct` step:
-
-```
-mri_nu_correct.mni --n 1 --proto-iters 1000 --distance 50 --no-rescale --i orig.mgz --o orig_nu.mgz 
-
-Linux cn170 2.6.32-573.7.1.el6.x86_64 #1 SMP Thu Sep 10 13:42:16 EDT 2015 x86_64 GNU/Linux
-
-recon-all -s sub-PILOT01 exited with ERRORS at Tue Apr  2 22:25:02 EDT 2019
-
-To report a problem, see http://surfer.nmr.mgh.harvard.edu/fswiki/BugReporting
-```
-
-#### Diagnosis
-
-You are using a container with FreeSurfer version 5.3 and Perl version > 5.20.x. You can confirm this by running `perl -v` inside the container to check the Perl version.
-
-#### Treatment
-
-If you are using the BIRC-provided container, contact BIRC support. If you are using your own container specification, install a compatible Perl version (<=5.20.3).
 
 
 ### Issue with fieldmap images (e.g. Spin echo fieldmap images have different dimensions)
