@@ -33,18 +33,16 @@ Once you have completed steps 1-4, you are ready to actually convert your DICOMs
 
 
 
- Converting your DICOM data to BIDS format is required prior to using BIDS apps, such as <code>mriqc</code> and <code>fmriprep</code> and the BIRC implementation of [[Containerized HCP]].
-
-There are several options for converting your raw DICOM files into a BIDS directory structure. This guide will cover the basics of using <code>bidskit</code> on the Storrs computing cluster. '''Throughout this guide, replace <code>abc12345</code> with your own NetID.'''
+ Converting your DICOM data to BIDS format is required prior to using BIDS apps, such as <code>mriqc</code> and <code>fmriprep</code>/.
 
 
 ## Converters
 
 ### BIDScoin
 
-[BIDScoin](bids/bidscoin) is the recommended method for getting your data into BIDS format as it is flexible enough to accommodate nearly every dataset. For simple datasets, such as those that not include derived images or multi-echo scans, you may consider another convertor such as [bidskit](https://github.com/jmtyszka/bidskit) or [dcm2bids](https://github.com/cbedetti/Dcm2Bids).
+[BIDScoin](https://bidscoin.readthedocs.io/en/stable/) is the recommended method for getting your data into BIDS format as it is flexible enough to accommodate nearly every dataset and has an easy to use graphical interface.
 
-The [birc-bids](https://github.com/bircibrain/birc-bids) container includes several conversion and validation tools. You can pull a copy of the container
+The [rhancock/birc-bids](https://hub.docker.com/r/rhancock/birc-bids) container includes several conversion and validation tools. You can pull a copy of the container
 
 using Docker:
 

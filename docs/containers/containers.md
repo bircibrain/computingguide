@@ -45,8 +45,9 @@ To pull a container from Docker Hub on the Storrs HPC system, run the following 
 ```shell
 module load singularity
 module load squashfs
-export SINGULARITY_CACHEDIR=/scratch/$USER
-export SINGULARITY_TMPDIR=/scratch/$USER
+PINETID=abc12345 # replace with your PI netid
+export SINGULARITY_CACHEDIR=/scratch/$PINETID/$USER
+export SINGULARITY_TMPDIR=/scratch/$PINETID/$USER
 singularity pull docker://user/image:tag
 
 ```
@@ -57,8 +58,8 @@ The `SINGULARITY_CACHEDIR` and `SINGULARITY_TMPDIR` variables are set above to a
 
 ## Useful containers
 
-- `poldracklab/mriqc` — quality control of functional and anatomical MRI data
-- `poldracklab/fmriprep` — preprocessing of functional and anatomical MRI data
+- `nipreps/mriqc` — quality control of functional and anatomical MRI data
+- `nipreps/fmriprep` — preprocessing of functional and anatomical MRI data
 - `afni/afni` — afni
 - `freesurfer/freesurfer` — FreeSurfer
 - `kaczmarj/neurodocker` — [Neurodocker](https://github.com/kaczmarj/neurodocker) image for building your own containers
